@@ -1,0 +1,267 @@
+<html>
+  <head>
+    <title>hexaRB</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      :root {
+        --back: #bebdbd;
+        --backLog: darkgrey;
+        --activeData: purple;
+        --font: rgb(253, 251, 251);
+        --BtnBackground: rgb(99, 97, 97);
+        --btnBorder: black;
+        --BtnBackgroundDis: rgb(87, 86, 86);
+        --BtnLegAct: purple; 
+      }
+
+      body { 
+        font-family: Arial, sans-serif; 
+        text-align: center; 
+        background-color: var(--back);
+        margin: 0;
+        overflow: hidden;
+        height: 100vh;
+      }
+
+      .log, .var, .height {
+        font-size: 13px;
+        text-align: left;
+        margin-left: 5px;
+      }
+
+      .height {
+        font-size: 17px;
+        color: var(--activeData);
+      }
+
+      .button, .buttonDisabled, .buttonLeg {
+        color: var(--font);
+        border-radius: 100%;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 18px;
+        cursor: pointer;
+        user-select: none;
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+      }
+
+      .button {
+        background-color: var(--BtnBackground);
+        border: solid var(--btnBorder);
+        width: 60px;
+        height: 60px;
+      }
+
+      .button:active {
+        border-color: var(--activeData);
+      }
+
+      .buttonDisabled {
+        background-color: var(--back);
+        border: none;
+        width: 60px;
+        height: 60px;
+        cursor: not-allowed;
+      }
+
+      .buttonLeg {
+        background-color: var(--BtnLegAct);
+        border: solid;
+        width: 40px;
+        height: 40px;
+      }
+
+      .buttonLeg:active {
+        background-color: var(--activeData);
+      }
+
+      .container {
+        display: grid;
+        width: 100%;
+        height: 100%;
+        grid-template-columns: 20% 60% 20%;
+        grid-template-rows: auto 10% 20% 35% 30%;
+        gap: 5px;
+        justify-items: center;
+        align-items: center;
+      }
+
+      .item-info1, .item-info2, .item-bt1, .item-heading, .item-stream, .item-bt3, .item-info3, .item-bt2,
+      .item-FL, .item-FR, .item-Height, .item-BL, .item-BR {
+        justify-self: stretch;
+        align-self: stretch;
+      }
+
+      img {  
+        width: 100%;
+      }
+
+      /* Mobile-friendly adjustments */
+      @media (max-width: 768px) {
+        .container {
+          grid-template-columns: 100%;
+          grid-template-rows: auto;
+          gap: 10px;
+        }
+
+        .item-info1, .item-info2, .item-bt1, .item-heading, .item-stream, .item-bt3, .item-info3, .item-bt2,
+        .item-FL, .item-FR, .item-Height, .item-BL, .item-BR {
+          grid-column: 1 / -1;
+          justify-self: center;
+          align-self: center;
+        }
+
+        .item-heading {
+         grid-column: 1 / -1; /* Span across all columns */
+         grid-row: 1; /* Move to the first row */
+         font-size: 40px;
+         text-align: center;
+         padding-top: 10px;
+        }
+
+        .button, .buttonDisabled, .buttonLeg {
+          width: 50px;
+          height: 50px;
+          font-size: 16px;
+        }
+
+        .button-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 5px;
+        }
+
+        .item-stream img {
+          max-width: 100%;
+          height: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="item-info1" id="logRows"></div>
+      <div class="item-info2">
+        <table id="logTable"></table>
+      </div>
+      <div class="item-bt1">
+        <div class="button-grid">
+          <button class="buttonDisabled"></button>
+          <button class="button" ontouchstart="sendCommand('W');">W</button>
+          <button class="buttonDisabled"></button>
+          <button class="button" ontouchstart="sendCommand('TL');">TL</button>
+          <button class="buttonDisabled"></button>
+          <button class="button" ontouchstart="sendCommand('TR');">TR</button>
+          <button class="buttonDisabled"></button>
+          <button class="button" ontouchstart="sendCommand('S');">S</button>
+          <button class="buttonDisabled"></button>
+        </div>
+      </div>
+      <div class="item-heading">hexaRB</div>
+      <div class="item-stream">
+        <img src="" id="photo">
+      </div>
+      <div class="item-bt3">
+        <div class="button-grid">
+          <button id="wave" class="button" ontouchstart="sendCommand('WAVE');">wave</button>
+          <button class="buttonDisabled"></button>
+          <button id="ARM" class="button" ontouchstart="sendCommand('ARM');">ARM</button>
+          <button id="LIGHT" class="button" ontouchstart="sendCommand('LIGHT');" style="font-size: 15px;">LIGHT</button>
+          <button class="buttonDisabled"></button>
+          <button id="HEIGHT" class="button" ontouchstart="sendCommand('HEIGHT');" style="font-size: 11px;">HEIGHT</button>
+          <button class="buttonDisabled"></button>
+          <button class="buttonDisabled"></button>
+          <button id="MODE" class="buttonDisabled"></button>
+        </div>
+      </div>
+      <div class="item-info3">
+        <div class="container">
+          <div class="item-FL">
+            <button class="buttonDisabled" id="FrontLeft"></button>
+          </div>
+          <div class="item-FR">
+            <button class="buttonDisabled" id="FrontRight"></button>
+          </div>
+          <div class="item-Height">
+            <h1 class="height" id="height">Height 1</h1>
+          </div>
+          <div class="item-BL">
+            <button class="buttonDisabled" id="BackLeft"></button>
+          </div>
+          <div class="item-BR">
+            <button class="buttonDisabled" id="BackRight"></button>
+          </div>
+        </div>
+      </div>
+      <div class="item-bt2">
+        <div class="button-grid">
+          <button class="buttonDisabled"></button>
+          <button class="button" ontouchstart="sendCommand('U');">U</button>
+          <button class="buttonDisabled"></button>
+          <button class="button" ontouchstart="sendCommand('L');">L</button>
+          <button class="button" ontouchstart="sendCommand('RSTR');">RST</button>
+          <button class="button" ontouchstart="sendCommand('R');">R</button>
+          <button class="buttonDisabled"></button>
+          <button class="button" ontouchstart="sendCommand('DO');">D</button>
+          <button class="buttonDisabled"></button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Establish a WebSocket connection
+      const socket = new WebSocket(`ws://${window.location.host}/ws`);
+
+      // Handle WebSocket connection open
+      socket.onopen = () => {
+        console.log("WebSocket connection established");
+      };
+
+      // Handle WebSocket errors
+      socket.onerror = (error) => {
+        console.error("WebSocket error:", error);
+      };
+
+      // Handle incoming messages from the server
+      socket.onmessage = (event) => {
+        const data = event.data;
+        console.log("Received from server:", data);
+        // Process the data (e.g., update UI with sensor readings)
+      };
+
+      // Function to send button commands
+      function sendCommand(command) {
+        if (socket.readyState === WebSocket.OPEN) {
+          socket.send(command);
+          console.log("Sent command:", command);
+        } else {
+          console.error("WebSocket is not open");
+        }
+      }
+
+      // Initialize log rows and table
+      const logRows = document.getElementById("logRows");
+      const logTable = document.getElementById("logTable");
+      const logIds = ["logTemp", "logRotX", "logRotY", "logRotZ", "logDistFr", "logDistFrL", "logDistFrR", "logDistBot"];
+
+      for (let i = 0; i < 12; i++) {
+        const h1 = document.createElement("h1");
+        h1.className = "log";
+        h1.id = `Row${i}`;
+        logRows.appendChild(h1);
+      }
+
+      logIds.forEach(id => {
+        const row = document.createElement("tr");
+        row.innerHTML = `<td><h1 class="var"></h1></td><td><h1 class="log" id="${id}"></h1></td><td><h1 class="var"></h1></td>`;
+        logTable.appendChild(row);
+      });
+
+      // Set up the image stream
+      window.onload = () => {
+        document.getElementById("photo").src = window.location.href.slice(0, -1) + ":81/stream";
+      };
+    </script>
+  </body>
+</html>
